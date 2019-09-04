@@ -4,13 +4,15 @@ import { MdCheckCircle, MdError, MdLink } from "react-icons/md";
 
 import { Container, FileInfo, Preview } from "./styles";
 
+import logo from './../../assets/iconfinder.png';
+
 export default function FileList({ files, onDelete }) {
   return (
     <Container>
       {files.map(uploadedFile => (
         <li key={uploadedFile.id}>
           <FileInfo>
-            <Preview src={uploadedFile.preview} />
+            <Preview src={logo} />
             <div>
               <strong>{uploadedFile.name}</strong>
               <span>
@@ -29,7 +31,7 @@ export default function FileList({ files, onDelete }) {
               <CircularProgressbar
                 styles={{
                   root: { width: 24 },
-                  path: { stroke: "#7159c1" }
+                  path: { stroke: "#0D3E3A" }
                 }}
                 strokeWidth={10}
                 value={uploadedFile.progress}

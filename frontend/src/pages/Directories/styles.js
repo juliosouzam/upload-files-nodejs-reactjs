@@ -7,6 +7,17 @@ export const Container = styled.div`
   align-items: center;
 `;
 
+export const ListDir = styled.li`
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  color: #444;
+
+  & + li {
+    margin-top: 15px;
+  }
+`;
+
 export const Navbar = styled.nav``;
 
 export const Content = styled.div`

@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from "styled-components";
 
 const dragActive = css`
   border-color: #78e5d5;
@@ -9,9 +9,11 @@ const dragReject = css`
 `;
 
 export const DropContainer = styled.div.attrs({
-  className: 'dropzone'
+  className: "dropzone"
 })`
-  max-width: 200px;
+  max-width: 100%;
+  height: 50px;
+  max-height: 100px;
   margin-top: 10px;
   border: 1px dashed #ddd;
   border-radius: 4px;
@@ -24,14 +26,14 @@ export const DropContainer = styled.div.attrs({
 `;
 
 const messageColors = {
-  default: '#999',
-  error: '#e57878',
-  success: '#78e5d5'
+  default: "#999",
+  error: "#e57878",
+  success: "#78e5d5"
 };
 
 export const UploadMessage = styled.p`
   display: flex;
-  color: ${props => messageColors[props.type || 'default']};
+  color: ${props => messageColors[props.type || "default"]};
   justify-content: center;
   align-items: center;
   padding: 15px 0;

@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .login-container form {
@@ -10,6 +11,9 @@
   max-width: 300px;
   display: flex;
   flex-direction: column;
+  background: #eee;
+  padding: 20px;
+  border-radius: 4px;
 }
 
 .login-container form input {

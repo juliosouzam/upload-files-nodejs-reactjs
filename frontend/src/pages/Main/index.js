@@ -1,35 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { uniqueId } from "lodash";
 import filesize from "filesize";
+import { Link } from 'react-router-dom';
 
-import GlobalStyle from "./../../styles/global";
-import { Container, Content } from "./styles";
+import { Container, Content, Navbar } from "./styles";
 import Upload from "./../../components/Upload";
 import FileList from "./../../components/FileList";
 import api from "./../../services/api";
-import { isAuthenticated } from './../../services/auth';
 
-export default function Main() {
+export default function Main({ match }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
-  async function loadPosts() {
-    const response = await api.get("posts");
-
-    setUploadedFiles(
-      response.data.map(file => ({
-        id: file._id,
-        name: file.name,
-        readableSize: filesize(file.size),
-        preview: file.url,
-        uploaded: true,
-        url: file.url
-      }))
-    );
-  }
-
   useEffect(() => {
-    loadPosts();
-  }, []);
+    async function loadFiles() {
+      const response = await api.get(
+        `directories/${match.params.directory}/files`
+      );
+
+      setUploadedFiles(
+        response.data.map(file => ({
+          id: file._id,
+          name: file.name,
+          readableSize: filesize(file.size),
+          preview: file.url,
+          uploaded: true,
+          url: file.url
+        }))
+      );
+    }
+
+    loadFiles();
+  }, [match.params.directory]);
 
   useEffect(() => {
     return () =>
@@ -49,22 +50,25 @@ export default function Main() {
       url: null
     }));
 
+    console.log(upFiles);
+
     setUploadedFiles(prevFiles => [...prevFiles, ...upFiles]);
     upFiles.forEach(processUpload);
   }
 
   async function handleDelete(id) {
-    await api.delete(`posts/${id}`);
+    await api.delete(`files/${id}`);
 
     setUploadedFiles(prevFiles => prevFiles.filter(file => file.id !== id));
   }
 
   function processUpload(uploadedFile) {
     const data = new FormData();
+    data.append("directory", match.params.directory);
     data.append("file", uploadedFile.file, uploadedFile.name);
 
     api
-      .post("posts", data, {
+      .post("directories/files", data, {
         onUploadProgress: e => {
           const progress = parseInt(Math.round((e.loaded * 100) / e.total));
 
@@ -99,13 +103,19 @@ export default function Main() {
 
   return (
     <Container>
+      <Navbar />
       <Content>
-        { isAuthenticated() && <Upload onUpload={handleUpload} />}
+      <Link
+          style={{ textDecoration: "none", fontSize: 16, color: '#757373' }}
+          to={`/directories`}
+        >
+          Voltar
+        </Link>
+        <Upload onUpload={handleUpload} />
         {!!uploadedFiles && (
           <FileList files={uploadedFiles} onDelete={handleDelete} />
         )}
       </Content>
-      <GlobalStyle />
     </Container>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 
 import api from "./../../services/api";
@@ -6,12 +6,6 @@ import api from "./../../services/api";
 export default function Login({ history }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    if (localStorage.getItem("hash")) {
-      history.push(`/files`);
-    }
-  }, [history])
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -24,7 +18,7 @@ export default function Login({ history }) {
     const { hash } = response.data;
     localStorage.setItem("hash", hash);
 
-    history.push(`/files`);
+    history.push(`/directories`);
   }
 
   return (
