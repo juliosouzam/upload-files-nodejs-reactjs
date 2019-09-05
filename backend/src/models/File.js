@@ -13,6 +13,8 @@ const FileSchema = new mongoose.Schema(
     key: String,
     url: String,
     directory: String,
+    author: String,
+    authorDeleted: String,
     deletedAt: {
       type: Date,
       default: null,
